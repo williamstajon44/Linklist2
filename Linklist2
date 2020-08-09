@@ -1,0 +1,139 @@
+package linkedlist2;
+
+public class LInkedList2
+{
+    public static void main(String[] args)
+    {
+        List ml = new List();
+        
+        ml.insertAtHead(new Node(17));
+        ml.insertAtHead(new Node(52));
+        ml.insertAtHead(new Node(7));
+        ml.insertAtHead(new Node(11));
+        ml.insertAtHead(new Node(88));
+        ml.insertAtHead(new Node(50));
+                
+        ml.display();
+        
+//        Node x1 = ml.removeFirst();
+//        
+//        if (x1 != null)
+//          System.out.println("Removed node with " + x1.value + " from list");
+//        
+//        x1 = ml.removeFirst();
+//        
+//        if (x1 != null)
+//          System.out.println("Removed node with " + x1.value + " from list");
+//
+//        ml.display();
+        
+        System.out.println();
+        
+        int lookFor = 7;
+        boolean found = ml.isThereR(lookFor);
+        
+        if (found)
+            System.out.println("Found " + lookFor);
+        else
+            System.out.println("Did not find " + lookFor);
+        
+        int nBig = ml.countGreater(50);
+        
+        System.out.println("Count greater is " + nBig);
+    }
+}
+
+// Node for linked list
+
+package linkedlist2;
+
+public class Node
+{
+    public int value;
+    public Node next;
+        
+    Node() { value = 0; next = null; }
+    Node(int x) { value = x; next = null; }
+}
+
+// Linked list class, stack operations
+
+package linkedlist2;
+
+public class List
+{
+    private Node head;
+    
+    List() { head = null; }
+    
+    public void insertAtHead(Node newOne)    // "push" new node onto front
+    {
+        newOne.next = head;    // new one points to old head of list
+        head = newOne;         // head points to new one
+    }
+    
+    public Node removeFirst()    // "pop" node at front
+    {
+        if (head == null) return null;   // no nodes
+        
+        Node temp = head;       // save ref to front node
+        
+        head = head.next;       // chop front node off list
+        
+        temp.next = null;       // detach node from list
+        return temp;            // return what used to be first node
+    }
+    
+    public boolean isThere(int seeking)   // is node w/ int value in list?
+    {        
+        Node ptr = head;            // temp reference to move down list
+        
+        while (ptr != null)         // while haven't run out of list
+        {
+            if (ptr.value == seeking)   // found it
+                return true;
+            
+            ptr = ptr.next;
+        }
+        return false;               // must not have been in list
+    }
+    
+    public boolean isThereR(int seeking)   // recursive version
+    {        
+        return isThereRutil(head, seeking);   // hand to internal util
+    }
+    
+    private boolean isThereRutil(Node n, int seekVal)
+    {
+        if (n == null) return false;           // ran out of list
+        
+        if (n.value == seekVal) return true;   // found it, so done
+        
+        return isThereRutil(n.next, seekVal);  // look down list 
+    }
+    
+    public int countGreater(int cut)  // n nodes w/ value > cut
+    {
+        Node ptr = head;
+        int count = 0;
+        
+        while(ptr != null)
+        {
+            if (ptr.value > cut)
+                count++;
+            
+            ptr = ptr.next;
+        }  
+        return count;
+    }
+    
+    public void display()
+    {
+       Node temp = head;
+       while (temp != null)
+        {
+            System.out.println(temp.value);
+            temp = temp.next;
+        }
+    }   
+}
